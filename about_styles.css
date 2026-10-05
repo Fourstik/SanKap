@@ -429,9 +429,12 @@ a   { color: inherit; text-decoration: none; }
 
 .tech-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(3, minmax(240px, 1fr));
   gap: 1.5rem;
   margin-top: 2rem;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Frosted Glass Cards */
@@ -539,10 +542,20 @@ a   { color: inherit; text-decoration: none; }
   .about-split-grid {
     grid-template-columns: 1fr;
   }
+  
+  .tech-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 768px) {
   .team-grid { grid-template-columns: 1fr; max-width: 320px; }
+}
+
+@media (max-width: 600px) {
+  .tech-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 480px) {
