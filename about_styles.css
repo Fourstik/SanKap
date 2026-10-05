@@ -1,4 +1,3 @@
-
 :root {
   /* Maroon / Red family */
   --maroon-950: #1a0505;
@@ -168,7 +167,7 @@ a   { color: inherit; text-decoration: none; }
 
 
 /* ═══════════════════════════════════════════════
-   About page styles
+    About page styles
 ═══════════════════════════════════════════════ */
 
 /* ── Animated gradient hero ──────────────────── */
@@ -236,7 +235,6 @@ a   { color: inherit; text-decoration: none; }
   padding: 4rem 2rem;
 }
 
-
 .about-hero__title {
   font-family: var(--font-serif);
   font-size: clamp(2.5rem, 6vw, 4.5rem);
@@ -258,20 +256,30 @@ a   { color: inherit; text-decoration: none; }
   line-height: 1.75;
 }
 
-/* ── What is SanKap ──────────────────────────── */
+/* ── Combined Split Section (What + Why) ────── */
 .about-what {
   background-color: #fcf9f5;
   padding: 5rem 0;
 }
 
-.about-what__inner {
+.about-split-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: stretch;
+}
+
+.about-what__card {
   background: var(--white);
   border: 1px solid var(--brown-100);
   border-radius: var(--r-xl);
   padding: 3rem;
   box-shadow: var(--shadow-sm);
-  max-width: 650px; /* Keeps it neatly framed on the left */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
+
 .about-what__label {
   font-size: .75rem;
   font-weight: 700;
@@ -283,7 +291,7 @@ a   { color: inherit; text-decoration: none; }
 
 .about-what__title {
   font-family: var(--font-serif);
-  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-size: clamp(1.8rem, 2.5vw, 2.2rem);
   color: var(--maroon-900);
   line-height: 1.2;
   margin-bottom: 1.25rem;
@@ -296,12 +304,37 @@ a   { color: inherit; text-decoration: none; }
   margin-bottom: 1rem;
 }
 
-.about-what__visual {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+/* Right Motivation Card Dark Variant */
+.about-why-card {
+  background: var(--maroon-900);
+  border: 1px solid var(--maroon-800);
+  border-radius: var(--r-xl);
+  padding: 3rem;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
+.about-why-card__text {
+  font-size: .95rem;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.about-why-card__quote {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-style: italic;
+  color: var(--amber-300);
+  line-height: 1.4;
+  border-left: 3px solid var(--amber-400);
+  padding-left: 1rem;
+  margin-top: 0.5rem;
+}
+
+/* Legacy backup classes if referenced */
 .about-stat-card {
   background: var(--brown-50);
   border: 1.5px solid var(--brown-100);
@@ -363,35 +396,6 @@ a   { color: inherit; text-decoration: none; }
 .tech-card__desc {
   font-size: .78rem;
   color: var(--text-muted);
-  line-height: 1.5;
-}
-
-/* ── Why we built this ───────────────────────── */
-.about-why {
-  padding: 6rem 0;
-  background: var(--maroon-900);
-}
-
-.about-why .section-title { color: var(--white); }
-.about-why .section-eyebrow { color: var(--amber-300); }
-
-.about-why__text {
-  max-width: 680px;
-  margin: 0 auto;
-  text-align: center;
-  font-size: 1rem;
-  color: rgba(255,255,255,.65);
-  line-height: 1.85;
-}
-
-.about-why__quote {
-  font-family: var(--font-serif);
-  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
-  font-style: italic;
-  color: var(--amber-300);
-  text-align: center;
-  max-width: 600px;
-  margin: 2rem auto 0;
   line-height: 1.5;
 }
 
@@ -457,13 +461,17 @@ a   { color: inherit; text-decoration: none; }
 }
 
 /* ── Responsive ──────────────────────────────── */
+@media (max-width: 992px) {
+  .about-split-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 768px) {
-  .about-what__inner { grid-template-columns: 1fr; gap: 2rem; }
   .team-grid { grid-template-columns: 1fr; max-width: 320px; }
 }
 
 @media (max-width: 480px) {
-  .about-what__visual { grid-template-columns: 1fr 1fr; }
+  .about-split-grid { padding: 0; }
   .tech-grid { grid-template-columns: repeat(2, 1fr); }
 }
-
