@@ -357,46 +357,120 @@ a   { color: inherit; text-decoration: none; }
   font-weight: 500;
 }
 
-/* ── Tech stack ──────────────────────────────── */
+/* ── Tech stack (Animated Dark Theme) ────────── */
 .about-tech {
-  padding: 6rem 0;
-  background: var(--brown-50);
+  position: relative;
+  padding: 7rem 0;
+  background: var(--maroon-950);
+  overflow: hidden;
+}
+
+/* Animated Flowing Gradient Mesh Background */
+.tech-bg-mesh {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, #1a0505, #2c0a0a, #4a1010, #1c1208, #3d2810);
+  background-size: 300% 300%;
+  animation: techMeshFlow 12s ease infinite;
+  opacity: 0.85;
+  z-index: 0;
+}
+
+@keyframes techMeshFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Floating ambient glow lights behind cards */
+.about-tech::before,
+.about-tech::after {
+  content: '';
+  position: absolute;
+  width: 350px;
+  height: 350px;
+  border-radius: 50%;
+  filter: blur(90px);
+  z-index: 0;
+  opacity: 0.25;
+  animation: techGlowFloat 10s ease-in-out infinite alternate;
+}
+
+.about-tech::before {
+  background: var(--amber-400);
+  top: -50px;
+  left: 10%;
+}
+
+.about-tech::after {
+  background: var(--maroon-300);
+  bottom: -50px;
+  right: 10%;
+  animation-delay: -5s;
+}
+
+@keyframes techGlowFloat {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(40px) scale(1.15); }
+}
+
+.tech-container {
+  position: relative;
+  z-index: 1;
+}
+
+.about-tech .section-eyebrow {
+  color: var(--amber-300);
+}
+
+.tech-title {
+  color: var(--white) !important;
 }
 
 .tech-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1.25rem;
-  margin-top: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
 }
 
+/* Frosted Glass Cards */
 .tech-card {
-  background: var(--white);
-  border: 1.5px solid var(--brown-100);
-  border-radius: var(--r-md);
-  padding: 1.75rem 1.5rem;
+  background: rgba(44, 10, 10, 0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(240, 184, 64, 0.2);
+  border-radius: var(--r-lg);
+  padding: 2rem 1.5rem;
   text-align: center;
-  transition: box-shadow .2s, transform .2s;
+  transition: transform .3s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color .3s, box-shadow .3s;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
 .tech-card:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-3px);
+  transform: translateY(-6px);
+  border-color: var(--amber-400);
+  box-shadow: 0 12px 40px 0 rgba(200, 134, 10, 0.25);
+  background: rgba(74, 16, 16, 0.6);
 }
 
-.tech-card__icon { font-size: 2.2rem; margin-bottom: .75rem; }
+.tech-card__icon { 
+  font-size: 2.5rem; 
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+}
 
 .tech-card__name {
   font-family: var(--font-serif);
-  font-size: 1.05rem;
-  color: var(--maroon-900);
-  margin-bottom: .35rem;
+  font-size: 1.15rem;
+  color: var(--white);
+  margin-bottom: .5rem;
 }
 
 .tech-card__desc {
-  font-size: .78rem;
-  color: var(--text-muted);
-  line-height: 1.5;
+  font-size: .82rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
 }
 
 /* ── Team ────────────────────────────────────── */
