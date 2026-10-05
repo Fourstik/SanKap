@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Saan, Kap? — Pampanga's Restaurant Finder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Shared nav (injected by components.js) -->
+  <div id="nav-placeholder"></div>
+
+  <!-- ══════════════════════════════════════════
+       HERO
+  ══════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero__overlay"></div>
+    <img
+      class="hero__bg"
+      src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600&auto=format&fit=crop&q=80"
+      alt="Delicious food spread"
+    />
+    <div class="hero__content">
+      <p class="hero__eyebrow">Find Dining in Pampanga</p>
+      <h1 class="hero__title">
+        Saan, <em>Kap?</em>
+      </h1>
+      <p class="hero__sub">Kain Tayo!</p>
+      <p class="hero__desc">
+        Discover the best restaurants across Angeles City, Clark,
+        San Fernando, and Mabalacat. Filtered by cuisine, location, and rating.
+      </p>
+      <div class="hero__actions">
+        <a href="restaurants.html" class="btn btn--primary">Browse Restaurants</a>
+        <a href="about.html" class="btn btn--outline">Learn More</a>
+      </div>
+    </div>
+    <div class="hero__scroll" aria-hidden="true">
+      <span>scroll down</span>
+      <div class="hero__scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       HOW IT WORKS
+  ══════════════════════════════════════════ -->
+  <section class="how">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">Simple as that</p>
+        <h2 class="section-title">How it works</h2>
+      </div>
+      <div class="how__steps">
+        <div class="how__step">
+          <div class="how__num">01</div>
+          <div class="how__icon">🔍</div>
+          <h3 class="how__title">Search & Filter</h3>
+          <p class="how__desc">Browse by cuisine type, location, or star rating to narrow down your options.</p>
+        </div>
+        <div class="how__divider" aria-hidden="true">→</div>
+        <div class="how__step">
+          <div class="how__num">02</div>
+          <div class="how__icon">📍</div>
+          <h3 class="how__title">Pick a Spot</h3>
+          <p class="how__desc">Find a restaurant that fits your craving. From Filipino classics to Japanese, Korean, and more.</p>
+        </div>
+        <div class="how__divider" aria-hidden="true">→</div>
+        <div class="how__step">
+          <div class="how__num">03</div>
+          <div class="how__icon">🍽️</div>
+          <h3 class="how__title">Kain Na!</h3>
+          <p class="how__desc">Get the contact number and head on over. Simple, fast, and local.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       TOP RATED
+  ══════════════════════════════════════════ -->
+  <section class="top-rated">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">Highest rated</p>
+        <h2 class="section-title">Featured Restaurants</h2>
+        <p class="section-sub">The most loved spots across Pampanga right now.</p>
+      </div>
+      <div class="cards" id="featuredCards">
+        <div class="card-skeleton"></div>
+        <div class="card-skeleton"></div>
+        <div class="card-skeleton"></div>
+      </div>
+      <div class="section-footer">
+        <a href="restaurants.html" class="btn btn--primary">View All Restaurants</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       BROWSE BY CUISINE
+  ══════════════════════════════════════════ -->
+  <section class="cuisines">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">What are you craving?</p>
+        <h2 class="section-title">Browse by Cuisine</h2>
+      </div>
+      <div class="cuisine-grid">
+        <a href="restaurants.html?cuisine=Filipino"    class="cuisine-card"><span class="cuisine-card__icon"><img src="https://flagcdn.com/w40/ph.png" alt="PH Flag" style="width:28px; height:auto; border-radius:2px;" /></span><span class="cuisine-card__name">Filipino</span></a>
+        <a href="restaurants.html?cuisine=Japanese"    class="cuisine-card"><span class="cuisine-card__icon"><img src="https://flagcdn.com/w40/jp.png" alt="JP Flag" style="width:28px; height:auto; border-radius:2px;" /></span><span class="cuisine-card__name">Japanese</span></a>
+        <a href="restaurants.html?cuisine=Korean"      class="cuisine-card"><span class="cuisine-card__icon"><img src="https://flagcdn.com/w40/kr.png" alt="KR Flag" style="width:28px; height:auto; border-radius:2px;" /></span><span class="cuisine-card__name">Korean</span></a>
+        <a href="restaurants.html?cuisine=Chinese"     class="cuisine-card"><span class="cuisine-card__icon"><img src="https://flagcdn.com/w40/cn.png" alt="CN Flag" style="width:28px; height:auto; border-radius:2px;" /></span><span class="cuisine-card__name">Chinese</span></a>
+        <a href="restaurants.html?cuisine=Italian"     class="cuisine-card"><span class="cuisine-card__icon"><img src="https://flagcdn.com/w40/it.png" alt="IT Flag" style="width:28px; height:auto; border-radius:2px;" /></span><span class="cuisine-card__name">Italian</span></a>
+        <a href="restaurants.html?cuisine=American"    class="cuisine-card"><span class="cuisine-card__icon"><img src="https://flagcdn.com/w40/us.png" alt="US Flag" style="width:28px; height:auto; border-radius:2px;" /></span><span class="cuisine-card__name">American</span></a>
+        <a href="restaurants.html?cuisine=Mexican"     class="cuisine-card"><span class="cuisine-card__icon"><img src="https://flagcdn.com/w40/mx.png" alt="MX Flag" style="width:28px; height:auto; border-radius:2px;" /></span><span class="cuisine-card__name">Mexican</span></a>
+        <a href="restaurants.html?cuisine=Seafood"     class="cuisine-card"><span class="cuisine-card__icon">🌊</span><span class="cuisine-card__name">Seafood</span></a>
+        <a href="restaurants.html?cuisine=Indian"      class="cuisine-card"><span class="cuisine-card__icon"><img src="https://flagcdn.com/w40/in.png" alt="IN Flag" style="width:28px; height:auto; border-radius:2px;" /></span><span class="cuisine-card__name">Indian</span></a>
+        <a href="restaurants.html?cuisine=Vegetarian"  class="cuisine-card"><span class="cuisine-card__icon">🌿</span><span class="cuisine-card__name">Vegetarian</span></a>
+        <a href="restaurants.html?cuisine=Cafe"        class="cuisine-card"><span class="cuisine-card__icon">☕</span><span class="cuisine-card__name">Cafe</span></a>
+        <a href="restaurants.html"                     class="cuisine-card cuisine-card--all"><span class="cuisine-card__icon">🍽️</span><span class="cuisine-card__name">View All</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       BROWSE BY LOCATION
+  ══════════════════════════════════════════ -->
+  <section class="locations">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">Where are you?</p>
+        <h2 class="section-title">Browse by Location</h2>
+      </div>
+      <div class="location-grid">
+        <a href="restaurants.html?address=Angeles City" class="location-card">
+          <div class="location-card__bg" style="background-image:url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop&q=70')"></div>
+          <div class="location-card__overlay"></div>
+          <div class="location-card__content"><h3 class="location-card__name">Angeles City</h3><p class="location-card__sub">The food capital</p></div>
+        </a>
+        <a href="restaurants.html?address=Clark" class="location-card">
+          <div class="location-card__bg" style="background-image:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&auto=format&fit=crop&q=70')"></div>
+          <div class="location-card__overlay"></div>
+          <div class="location-card__content"><h3 class="location-card__name">Clark</h3><p class="location-card__sub">International flavors</p></div>
+        </a>
+        <a href="restaurants.html?address=San Fernando" class="location-card">
+          <div class="location-card__bg" style="background-image:url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&auto=format&fit=crop&q=70')"></div>
+          <div class="location-card__overlay"></div>
+          <div class="location-card__content"><h3 class="location-card__name">San Fernando</h3><p class="location-card__sub">Local favorites</p></div>
+        </a>
+        <a href="restaurants.html?address=Mabalacat" class="location-card">
+          <div class="location-card__bg" style="background-image:url('https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=600&auto=format&fit=crop&q=70')"></div>
+          <div class="location-card__overlay"></div>
+          <div class="location-card__content"><h3 class="location-card__name">Mabalacat</h3><p class="location-card__sub">Hidden gems</p></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shared footer (injected by components.js) -->
+  <div id="footer-placeholder"></div>
+
+  <!-- Scripts -->
+  <script src="component.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
