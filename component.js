@@ -42,20 +42,14 @@ function renderFooter() {
       <div class="footer__inner">
         <div class="footer__brand">
           <span class="footer__logo">📍 Saan, <em>Kap?</em></span>
-          <p class="footer__tagline">Find Dining in Pampanga.</p>
+          <span class="footer__tagline">Find Dining in Pampanga.</span>
         </div>
-        <div class="footer__links">
-          <a href="index.html">Home</a>
-          <a href="restaurants.html">Browse</a>
-          <a href="about.html">About</a>
-          <a href="manage.html">Manage</a>
+        <div class="footer__bottom" style="text-align: right;">
+          <p style="font-size: 0.75rem; color: rgba(255,255,255,.4);">6ADDBASE Final Project &middot; WD-303 &middot; Instructor: Raphael P. Aguipo</p>
         </div>
       </div>
       <div class="footer__bottom">
-        <p>6ADDBASE Final Project &middot; WD-303 &middot; Instructor: Raphael P. Aguipo</p>
-        <p style="margin-top:.35rem; opacity:.6;">
-          Incognito &middot; Jose &middot; Montoya
-        </p>
+        <p>&copy; 2026 Saan, Kap? &middot; <span style="color: var(--amber-300); font-weight: 500;">Incognito</span> &middot; <span style="color: var(--amber-300); font-weight: 500;">Jose</span> &middot; <span style="color: var(--amber-300); font-weight: 500;">Montoya</span></p>
       </div>
     </div>
   </footer>
