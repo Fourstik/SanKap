@@ -360,7 +360,7 @@ a   { color: inherit; text-decoration: none; }
 /* ── Tech stack (Animated Dark Theme) ────────── */
 .about-tech {
   position: relative;
-  padding: 7rem 0;
+  padding: 4rem 0 6rem 0;
   background: var(--maroon-950);
   overflow: hidden;
 }
