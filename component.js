@@ -17,7 +17,7 @@ function renderNav() {
   <nav class="nav" id="mainNav">
     <a href="index.html" class="nav__logo">
       <span class="nav__pin">📍</span>
-      <span>Saan, <em>Kap?</em></span>
+      <span>San<em>Kap</em></span>
     </a>
 
     <button class="nav__burger" id="burger" aria-label="Toggle menu" aria-expanded="false">
@@ -41,7 +41,7 @@ function renderFooter() {
     <div class="container">
       <div class="footer__inner">
         <div class="footer__brand">
-          <span class="footer__logo">📍 Saan, <em>Kap?</em></span>
+          <span class="footer__logo">📍 San<em>Kap</em></span>
           <span class="footer__tagline">Find Dining in Pampanga.</span>
         </div>
         <div class="footer__bottom" style="text-align: right;">
@@ -49,7 +49,7 @@ function renderFooter() {
         </div>
       </div>
       <div class="footer__bottom">
-        <p>&copy; 2026 Saan, Kap? &middot; <span style="color: var(--amber-300); font-weight: 500;">Incognito</span> &middot; <span style="color: var(--amber-300); font-weight: 500;">Jose</span> &middot; <span style="color: var(--amber-300); font-weight: 500;">Montoya</span></p>
+        <p>&copy; 2026 SanKap &middot; <span style="color: var(--amber-300); font-weight: 500;">Incognito</span> &middot; <span style="color: var(--amber-300); font-weight: 500;">Jose</span> &middot; <span style="color: var(--amber-300); font-weight: 500;">Montoya</span></p>
       </div>
     </div>
   </footer>
