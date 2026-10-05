@@ -236,14 +236,6 @@ a   { color: inherit; text-decoration: none; }
   padding: 4rem 2rem;
 }
 
-.about-hero__eyebrow {
-  font-size: .75rem;
-  font-weight: 600;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: var(--amber-300);
-  margin-bottom: 1rem;
-}
 
 .about-hero__title {
   font-family: var(--font-serif);
@@ -268,17 +260,18 @@ a   { color: inherit; text-decoration: none; }
 
 /* ── What is SanKap ──────────────────────────── */
 .about-what {
-  padding: 6rem 0;
-  background: var(--white);
+  background-color: #fcf9f5;
+  padding: 5rem 0;
 }
 
 .about-what__inner {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: center;
+  background: var(--white);
+  border: 1px solid var(--brown-100);
+  border-radius: var(--r-xl);
+  padding: 3rem;
+  box-shadow: var(--shadow-sm);
+  max-width: 650px; /* Keeps it neatly framed on the left */
 }
-
 .about-what__label {
   font-size: .75rem;
   font-weight: 700;
