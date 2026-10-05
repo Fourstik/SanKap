@@ -42,7 +42,7 @@ function renderFooter() {
       <div class="footer__inner">
         <div class="footer__brand">
           <span class="footer__logo">📍 Saan, <em>Kap?</em></span>
-          <p class="footer__tagline">Your Pampanga dining guide.</p>
+          <p class="footer__tagline">Find Dining in Pampanga.</p>
         </div>
         <div class="footer__links">
           <a href="index.html">Home</a>
