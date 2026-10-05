@@ -48,7 +48,7 @@ function renderFooter() {
           <p style="font-size: 0.75rem; color: rgba(255,255,255,.4);">6ADDBASE Final Project &middot; WD-303 &middot; Instructor: Raphael P. Aguipo</p>
         </div>
       </div>
-      <div class="footer__bottom">
+      <div class="footer__bottom" style="color: rgba(255,255,255,0.6);">
         <p>&copy; 2026 SanKap &middot; <span style="color: var(--amber-300); font-weight: 500;">Incognito</span> &middot; <span style="color: var(--amber-300); font-weight: 500;">Jose</span> &middot; <span style="color: var(--amber-300); font-weight: 500;">Montoya</span></p>
       </div>
     </div>
