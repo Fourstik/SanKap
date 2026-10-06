@@ -24,7 +24,7 @@ app.use(express.json()); // lets us read JSON bodies on POST/PUT
 app.use(express.static(path.join(__dirname, 'public')));
 
 // 4. API routes (uncomment once routes/restaurants.js exists)
-// app.use('/api/restaurants', require('./routes/restaurants'));
+app.use('/api/restaurants', require('./routes/restaurants'));
 // app.use('/api/admin', require('./routes/admin'));
 
 // 5. Connect to MongoDB Atlas
