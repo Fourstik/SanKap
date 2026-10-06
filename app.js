@@ -14,6 +14,7 @@ const cors = require('cors');
 const path = require('path');
 
 const app = express();
+app.set('trust proxy', 1);
 const PORT = process.env.PORT || 3000;
 
 // 2. Middleware
@@ -25,7 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // 4. API routes (uncomment once routes/restaurants.js exists)
 app.use('/api/restaurants', require('./routes/restaurants'));
-// app.use('/api/admin', require('./routes/admin'));
+app.use('/api/admin', require('./routes/admin'));
 
 // 5. Connect to MongoDB Atlas
 mongoose

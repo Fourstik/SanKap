@@ -1,5 +1,6 @@
 const express = require('express');
 const Restaurant = require('../models/Restaurant');
+const { requireAdmin, adminLimiter } = require('../middleware/auth');
 
 const router = express.Router();
 
@@ -57,6 +58,75 @@ router.get('/:id', async (req, res) => {
   const restaurant = await Restaurant.findOne({ restaurant_id: id });
   if (!restaurant) return res.status(404).json({ message: 'Restaurant not found' });
   res.json(restaurant);
+});
+
+// ---------- Admin write routes (password required) ----------
+const guard = [adminLimiter, requireAdmin];
+
+const CUISINES = ['American', 'Cafe', 'Chinese', 'Filipino', 'Indian', 'Italian',
+  'Japanese', 'Korean', 'Mexican', 'Seafood', 'Vegetarian'];
+const LOCATIONS = ['Angeles City', 'Clark', 'Mabalacat', 'San Fernando'];
+
+// Only these fields are ever read from the request body
+function clean(body) {
+  const b = body || {};
+  return { name: b.name, cuisine: b.cuisine, address: b.address, rating: b.rating, contact: b.contact };
+}
+
+// Returns an error message, or null if valid
+function validate(d) {
+  for (const f of ['name', 'cuisine', 'address', 'contact']) {
+    if (typeof d[f] !== 'string' || !d[f].trim()) return `${f} is required`;
+  }
+  if (!CUISINES.includes(d.cuisine)) return 'Invalid cuisine';
+  if (!LOCATIONS.includes(d.address)) return 'Invalid location';
+  const r = Number(d.rating);
+  if (d.rating === '' || d.rating == null || Number.isNaN(r) || r < 0 || r > 5) {
+    return 'Rating must be between 0 and 5';
+  }
+  if (!/^09\d{9}$/.test(d.contact.trim())) return 'Contact must be 11 digits starting with 09';
+  d.rating = r;
+  return null;
+}
+
+// POST /api/restaurants  (restaurant_id is assigned by the server)
+router.post('/', ...guard, async (req, res) => {
+  const data = clean(req.body);
+  const err = validate(data);
+  if (err) return res.status(400).json({ message: err });
+
+  const last = await Restaurant.findOne().sort({ restaurant_id: -1 }).select('restaurant_id');
+  data.restaurant_id = last ? last.restaurant_id + 1 : 1;
+
+  const created = await Restaurant.create(data);
+  res.status(201).json(created);
+});
+
+// PUT /api/restaurants/:id  (restaurant_id itself can't be changed)
+router.put('/:id', ...guard, async (req, res) => {
+  const id = Number(req.params.id);
+  if (!Number.isInteger(id)) return res.status(400).json({ message: 'Invalid restaurant id' });
+
+  const data = clean(req.body);
+  const err = validate(data);
+  if (err) return res.status(400).json({ message: err });
+
+  const updated = await Restaurant.findOneAndUpdate({ restaurant_id: id }, data, {
+    new: true,
+    runValidators: true,
+  });
+  if (!updated) return res.status(404).json({ message: 'Restaurant not found' });
+  res.json(updated);
+});
+
+// DELETE /api/restaurants/:id
+router.delete('/:id', ...guard, async (req, res) => {
+  const id = Number(req.params.id);
+  if (!Number.isInteger(id)) return res.status(400).json({ message: 'Invalid restaurant id' });
+
+  const deleted = await Restaurant.findOneAndDelete({ restaurant_id: id });
+  if (!deleted) return res.status(404).json({ message: 'Restaurant not found' });
+  res.json({ message: 'Restaurant deleted', restaurant: deleted });
 });
 
 module.exports = router;
