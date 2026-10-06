@@ -26,7 +26,7 @@ function renderNav() {
 
     <ul class="nav__links" id="navLinks" role="list">
       <li><a href="index.html"       class="nav__link ${isActive('index.html')}">Home</a></li>
-      <li><a href="restaurants.html" class="nav__link ${isActive('restaurants.html')}">Browse</a></li>
+      <li><a href="browse.html" class="nav__link ${isActive('browse.html')}">Browse</a></li>
       <li><a href="about.html"       class="nav__link ${isActive('about.html')}">About</a></li>
       <li><a href="manage.html"      class="nav__link nav__link--manage ${isActive('manage.html')}">Manage</a></li>
     </ul>
