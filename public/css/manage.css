@@ -1,0 +1,21 @@
+.manage { padding: 2.5rem 0 4rem; background: var(--brown-50); }
+.manage__bar { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+.manage__actions { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; }
+.manage__search { padding: .6rem .9rem; border: 1.5px solid var(--brown-100); border-radius: var(--r-md); font: inherit; }
+.manage__message { min-height: 1.4rem; margin-bottom: .5rem; font-size: .875rem; color: #1a6e1a; }
+.manage__message.is-error { color: #b42318; }
+
+.table-wrap { overflow-x: auto; background: var(--white); border: 1.5px solid var(--brown-100); border-radius: var(--r-md); }
+.table { width: 100%; border-collapse: collapse; font-size: .875rem; }
+.table th, .table td { padding: .8rem 1rem; text-align: left; white-space: nowrap; border-bottom: 1px solid var(--brown-100); }
+.table th { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); background: var(--brown-50); }
+.table tr:last-child td { border-bottom: none; }
+.table__name { font-weight: 600; color: var(--maroon-900); }
+.table__empty { text-align: center; color: var(--text-muted); }
+.table__actions { display: flex; gap: .4rem; }
+.btn--sm { padding: .35rem .8rem; font-size: .78rem; }
+
+.modal__box--wide { max-width: 480px; }
+.form-field { margin-bottom: .9rem; }
+.form-field label { display: block; margin-bottom: .3rem; font-size: .78rem; font-weight: 600; color: var(--text-mid); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; }

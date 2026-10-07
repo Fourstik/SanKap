@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — SanKap</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/browse_styles.css" />
+  <link rel="stylesheet" href="css/manage.css" />
+</head>
+<body>
+
+  <div id="nav-placeholder"></div>
+
+  <section class="page-hero">
+    <div class="page-hero__overlay"></div>
+    <img class="page-hero__bg"
+      src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1600&auto=format&fit=crop&q=70"
+      alt="Restaurant interior" />
+    <div class="page-hero__content container">
+      <p class="hero__eyebrow">Admin Panel</p>
+      <h1 class="page-hero__title">Manage Restaurants</h1>
+      <p class="page-hero__sub">Add, edit, or remove restaurants.</p>
+    </div>
+  </section>
+
+  <!-- Hidden until manage.js confirms the password -->
+  <main class="manage hidden" id="manageMain">
+    <div class="container">
+      <div class="manage__bar">
+        <p class="results__count" id="manageCount">Loading...</p>
+        <div class="manage__actions">
+          <input type="text" class="manage__search" id="manageSearch" placeholder="Search..." autocomplete="off" />
+          <button class="btn btn--primary" id="addBtn" type="button">+ Add restaurant</button>
+          <button class="btn btn--ghost" id="logoutBtn" type="button">Log out</button>
+        </div>
+      </div>
+
+      <p class="manage__message" id="manageMessage" role="status"></p>
+
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th><th>Name</th><th>Cuisine</th><th>Location</th>
+              <th>Rating</th><th>Contact</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- Add / Edit popup -->
+  <div class="modal" id="formModal">
+    <div class="modal__box modal__box--wide" role="dialog" aria-modal="true" aria-labelledby="formTitle">
+      <h2 class="modal__title" id="formTitle">Add restaurant</h2>
+      <form id="restaurantForm" novalidate>
+        <div class="form-field">
+          <label for="fName">Name</label>
+          <input class="modal__input" id="fName" maxlength="80" />
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="fCuisine">Cuisine</label>
+            <select class="modal__input" id="fCuisine"></select>
+          </div>
+          <div class="form-field">
+            <label for="fAddress">Location</label>
+            <select class="modal__input" id="fAddress"></select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="fRating">Rating (0–5)</label>
+            <input class="modal__input" id="fRating" type="number" min="0" max="5" step="0.1" />
+          </div>
+          <div class="form-field">
+            <label for="fContact">Contact</label>
+            <input class="modal__input" id="fContact" maxlength="11" inputmode="numeric" placeholder="09171234567" />
+          </div>
+        </div>
+        <p class="modal__error" id="formError" role="alert"></p>
+        <div class="modal__actions">
+          <button type="button" class="btn btn--ghost" id="formCancel">Cancel</button>
+          <button type="submit" class="btn btn--primary" id="formSave">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Delete confirmation popup -->
+  <div class="modal" id="deleteModal">
+    <div class="modal__box" role="dialog" aria-modal="true" aria-labelledby="deleteTitle">
+      <h2 class="modal__title" id="deleteTitle">Delete restaurant?</h2>
+      <p class="modal__text" id="deleteText"></p>
+      <p class="modal__error" id="deleteError" role="alert"></p>
+      <div class="modal__actions">
+        <button type="button" class="btn btn--ghost" id="deleteCancel">Cancel</button>
+        <button type="button" class="btn btn--danger" id="deleteConfirm">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="footer-placeholder"></div>
+
+  <script src="js/component.js"></script>
+  <script src="js/shared.js"></script>
+  <script src="js/manage.js"></script>
+</body>
+</html>
