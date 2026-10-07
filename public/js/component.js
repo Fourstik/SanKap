@@ -28,7 +28,7 @@ function renderNav() {
       <li><a href="index.html"       class="nav__link ${isActive('index.html')}">Home</a></li>
       <li><a href="browse.html" class="nav__link ${isActive('browse.html')}">Browse</a></li>
       <li><a href="about.html"       class="nav__link ${isActive('about.html')}">About</a></li>
-      <li><a href="manage.html"      class="nav__link nav__link--manage ${isActive('manage.html')}">Manage</a></li>
+      <li><a href="manage.html" id="adminLink" class="nav__link nav__link--manage ${isActive('manage.html')}">Admin</a></li>
     </ul>
   </nav>
   `;
@@ -84,6 +84,88 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+    // ── Admin password popup ────────────────────────────────
+  const ADMIN_KEY = 'sankap_admin_pw'; 
+
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.innerHTML = `
+    <div class="modal__box" role="dialog" aria-modal="true" aria-labelledby="adminModalTitle">
+      <h2 class="modal__title" id="adminModalTitle">Admin access</h2>
+      <p class="modal__text">Enter the admin password to add, edit, or delete restaurants.</p>
+      <form id="adminForm" novalidate>
+        <input type="password" id="adminPassword" class="modal__input"
+               placeholder="Password" autocomplete="current-password" />
+        <p class="modal__error" id="adminError" role="alert"></p>
+        <div class="modal__actions">
+          <button type="button" class="btn btn--ghost" id="adminCancel">Cancel</button>
+          <button type="submit" class="btn btn--primary" id="adminSubmit">Unlock</button>
+        </div>
+      </form>
+    </div>`;
+  document.body.append(modal);
+
+  const adminForm   = document.getElementById('adminForm');
+  const adminInput  = document.getElementById('adminPassword');
+  const adminError  = document.getElementById('adminError');
+  const adminSubmit = document.getElementById('adminSubmit');
+
+  function openAdminModal() {
+    adminInput.value = '';
+    adminError.textContent = '';
+    modal.classList.add('is-open');
+    adminInput.focus();
+  }
+  function closeAdminModal() {
+    modal.classList.remove('is-open');
+  }
+
+  // Clicking Admin: already unlocked -> go through; otherwise show the popup
+  const adminLink = document.getElementById('adminLink');
+  if (adminLink) {
+    adminLink.addEventListener('click', (e) => {
+      if (sessionStorage.getItem(ADMIN_KEY)) return;
+      e.preventDefault();
+      if (navLinks) navLinks.classList.remove('open'); // close mobile menu
+      if (burger) { burger.classList.remove('is-open'); burger.setAttribute('aria-expanded', false); }
+      openAdminModal();
+    });
+  }
+
+  document.getElementById('adminCancel').addEventListener('click', closeAdminModal);
+  modal.addEventListener('click', (e) => { if (e.target === modal) closeAdminModal(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAdminModal(); });
+
+  adminForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const password = adminInput.value;
+    if (!password) { adminError.textContent = 'Please enter the password.'; return; }
+
+    adminSubmit.disabled = true;
+    adminSubmit.textContent = 'Checking...';
+    try {
+      const res = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'x-admin-password': password },
+      });
+      if (res.ok) {
+        sessionStorage.setItem(ADMIN_KEY, password);
+        window.location.href = 'manage.html';
+        return;
+      }
+      adminError.textContent = res.status === 429
+        ? 'Too many failed attempts. Try again in 15 minutes.'
+        : 'Incorrect password.';
+      adminInput.select();
+    } catch (err) {
+      adminError.textContent = "Couldn't reach the server. Please try again.";
+    }
+    adminSubmit.disabled = false;
+    adminSubmit.textContent = 'Unlock';
+  });
+
+
 
   // ── Transparent → solid nav on scroll ──────────────────
   const nav = document.getElementById('mainNav');
