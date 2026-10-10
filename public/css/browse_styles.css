@@ -1051,3 +1051,19 @@ a   { color: inherit; text-decoration: none; }
     gap: .5rem;
   }
 }
+
+/* Recently added section*/
+.recent {
+  margin-bottom: 1.75rem;
+  padding: 1.25rem 1.25rem 1.5rem;
+  background: rgba(224, 152, 32, .08);
+  border: 1.5px solid rgba(224, 152, 32, .35);
+  border-radius: var(--r-md);
+}
+.recent__header { display: flex; align-items: center; gap: .7rem; margin-bottom: 1rem; }
+.recent__title { font-family: var(--font-serif); font-size: 1.25rem; color: var(--maroon-900); }
+.recent__tag {
+  padding: .15rem .6rem; border-radius: 999px;
+  background: var(--amber-400); color: var(--maroon-900);
+  font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+}

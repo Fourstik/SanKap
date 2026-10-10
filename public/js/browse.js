@@ -134,6 +134,17 @@
     render();
   });
 
+    // Restaurants with an ID above the original 30 were added through Admin
+  const ORIGINAL_COUNT = 30;
+  function renderRecent() {
+    const recent = state.all
+      .filter((r) => r.restaurant_id > ORIGINAL_COUNT)
+      .sort((a, b) => b.restaurant_id - a.restaurant_id)
+      .slice(0, 4);
+    $('recentSection').classList.toggle('hidden', recent.length === 0);
+    $('recentCards').replaceChildren(...recent.map(buildCard));
+  }
+  
   // ---------- Load data ----------
   // Homepage links: browse.html?cuisine=Filipino  /  browse.html?location=Clark
   function applyUrlParams() {
@@ -165,6 +176,7 @@
       state.all = data;
       applyUrlParams();
       render();
+      renderRecent();
     })
     .catch(showError);
 })();
