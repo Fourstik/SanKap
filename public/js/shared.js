@@ -31,7 +31,7 @@ function buildCard(r) {
 
   const body = el('div', 'card__body');
   const meta = el('div', 'card__meta');
-  meta.append(el('span', 'badge badge--' + r.cuisine.toLowerCase(), r.cuisine), el('span', '', '📍 ' + r.address));
+  meta.append(badgeFor(r.cuisine), el('span', '', '📍 ' + r.address));
   body.append(meta);
 
   const footer = el('div', 'card__footer');
@@ -48,7 +48,7 @@ function buildListItem(r) {
   const left = el('div', 'list-item__left');
   left.append(el('h3', 'list-item__name', r.name));
   const meta = el('div', 'list-item__meta');
-  meta.append(el('span', 'badge badge--' + r.cuisine.toLowerCase(), r.cuisine), el('span', '', '📍 ' + r.address));
+  meta.append(badgeFor(r.cuisine), el('span', '', '📍 ' + r.address));
   left.append(meta);
 
   const right = el('div', 'list-item__right');
@@ -58,4 +58,14 @@ function buildListItem(r) {
 
   item.append(left, right);
   return item;
+}
+
+// Badge for a cuisine. Unknown (custom) cuisines get a neutral colour
+const KNOWN_BADGES = ['american', 'cafe', 'chinese', 'filipino', 'indian', 'italian',
+  'japanese', 'korean', 'mexican', 'seafood', 'vegetarian'];
+
+function badgeFor(cuisine) {
+  const slug = cuisine.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  const known = KNOWN_BADGES.includes(slug);
+  return el('span', 'badge ' + (known ? 'badge--' + slug : 'badge--other'), cuisine);
 }

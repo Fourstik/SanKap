@@ -11,6 +11,7 @@
   const CUISINES = ['American', 'Cafe', 'Chinese', 'Filipino', 'Indian', 'Italian',
     'Japanese', 'Korean', 'Mexican', 'Seafood', 'Vegetarian'];
   const LOCATIONS = ['Angeles City', 'Clark', 'Mabalacat', 'San Fernando'];
+  const OTHER = '__other__';
 
   const $ = (id) => document.getElementById(id);
   const formModal = $('formModal');
@@ -92,13 +93,12 @@
     if (isError) showToast(text, true);
     else showSuccess(text);
   }
-  
+
   // ---------- Table ----------
   function buildRow(r) {
     const tr = el('tr');
     const cuisineCell = el('td');
-    cuisineCell.append(el('span', 'badge badge--' + r.cuisine.toLowerCase(), r.cuisine));
-
+    cuisineCell.append(badgeFor(r.cuisine));
     const edit = el('button', 'btn btn--ghost btn--sm', 'Edit');
     const del = el('button', 'btn btn--danger btn--sm', 'Delete');
     [[edit, 'edit'], [del, 'delete']].forEach(([btn, action]) => {
@@ -172,6 +172,8 @@
     $('formSave').textContent = r ? 'Save changes' : 'Add restaurant';
     $('fName').value = r ? r.name : '';
     $('fCuisine').value = r ? r.cuisine : '';
+    $('fCuisineOther').value = '';
+    $('fCuisineOther').classList.add('hidden');
     $('fAddress').value = r ? r.address : '';
     $('fRating').value = r ? r.rating : '';
     $('fContact').value = r ? r.contact : '';
@@ -214,19 +216,29 @@
 
   $('formCancel').addEventListener('click', closeModals);
   $('deleteCancel').addEventListener('click', closeModals);
+  $('fCuisine').addEventListener('change', () => {
+    const other = $('fCuisine').value === OTHER;
+    $('fCuisineOther').classList.toggle('hidden', !other);
+    if (other) $('fCuisineOther').focus();
+  });
   formModal.addEventListener('click', (e) => { if (e.target === formModal) closeModals(); });
   deleteModal.addEventListener('click', (e) => { if (e.target === deleteModal) closeModals(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModals(); });
 
   $('restaurantForm').addEventListener('submit', async (e) => {
     e.preventDefault();
+    const chosen = $('fCuisine').value;
     const data = {
       name: $('fName').value.trim(),
-      cuisine: $('fCuisine').value,
+      cuisine: chosen === OTHER ? $('fCuisineOther').value.trim() : chosen,
       address: $('fAddress').value,
       rating: $('fRating').value.trim(),
       contact: $('fContact').value.trim(),
     };
+    if (chosen === OTHER && !data.cuisine) {
+      $('formError').textContent = 'Please enter the cuisine';
+      return;
+    }
     const problem = validate(data);
     if (problem) { $('formError').textContent = problem; return; }
     data.rating = Number(data.rating);
@@ -238,10 +250,11 @@
       await api(editing ? `/api/restaurants/${state.editingId}` : '/api/restaurants',
         editing ? 'PUT' : 'POST', data);
       closeModals();
+      await loadCuisineOptions();
       await loadList();
       showMessage(editing
-  ? `“${data.name}” was updated successfully.`
-  : `“${data.name}” was added successfully!`);
+        ? `“${data.name}” was updated successfully.`
+        : `“${data.name}” was added successfully!`);
     } catch (err) {
       $('formError').textContent = err.message;
     }
@@ -264,8 +277,21 @@
     btn.disabled = false;
   });
 
+  async function loadCuisineOptions() {
+    let list = CUISINES;
+    try {
+      const res = await fetch('/api/restaurants/cuisines');
+      if (res.ok) list = await res.json();
+    } catch (e) { /* fall back to the built-in list */ }
+    $('fCuisine').replaceChildren(
+      new Option('Choose a cuisine', ''),
+      ...list.map((v) => new Option(v, v)),
+      new Option('Other…', OTHER)
+    );
+  }
+
   // ---------- Start ----------
-  fillSelect($('fCuisine'), CUISINES, 'Choose a cuisine');
+  loadCuisineOptions();
   fillSelect($('fAddress'), LOCATIONS, 'Choose a location');
 
   (async function init() {

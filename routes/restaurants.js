@@ -49,6 +49,11 @@ router.get('/', async (req, res) => {
   res.json(restaurants);
 });
 
+// GET /api/restaurants/cuisines  -> ["American", "Cafe", ...]
+router.get('/cuisines', async (req, res) => {
+  res.json(await allCuisines());
+});
+
 // GET /api/restaurants/:id  (uses restaurant_id, not Mongo's _id)
 router.get('/:id', async (req, res) => {
   const id = Number(req.params.id);
@@ -63,8 +68,31 @@ router.get('/:id', async (req, res) => {
 // ---------- Admin write routes (password required) ----------
 const guard = [adminLimiter, requireAdmin];
 
-const CUISINES = ['American', 'Cafe', 'Chinese', 'Filipino', 'Indian', 'Italian',
+const BASE_CUISINES = ['American', 'Cafe', 'Chinese', 'Filipino', 'Indian', 'Italian',
   'Japanese', 'Korean', 'Mexican', 'Seafood', 'Vegetarian'];
+
+// "filipino" -> "Filipino"
+const properCase = (s) =>
+  s.toLowerCase().replace(/(^|[\s-])(\p{L})/gu, (m, sep, ch) => sep + ch.toUpperCase());
+
+// Every cuisine the app knows: the 11 originals plus any custom ones in the database
+async function allCuisines() {
+  const existing = await Restaurant.distinct('cuisine');
+  return [...new Set([...BASE_CUISINES, ...existing])].sort((a, b) => a.localeCompare(b));
+}
+
+// Cleans a cuisine name, and match an existing spelling when there is one
+async function resolveCuisine(input) {
+  const name = String(input || '').trim().replace(/\s+/g, ' ');
+  if (!/^\p{L}[\p{L} '&-]{1,29}$/u.test(name)) {
+    return { error: 'Cuisine must be 2–30 letters (spaces, - and & are allowed)' };
+  }
+  if (name.toLowerCase() === 'other') return { error: 'Please enter the specific cuisine' };
+  const known = await allCuisines();
+  const match = known.find((c) => c.toLowerCase() === name.toLowerCase());
+  return { value: match || properCase(name) };
+}
+
 const LOCATIONS = ['Angeles City', 'Clark', 'Mabalacat', 'San Fernando'];
 
 // Only these fields are ever read from the request body
@@ -78,7 +106,6 @@ function validate(d) {
   for (const f of ['name', 'cuisine', 'address', 'contact']) {
     if (typeof d[f] !== 'string' || !d[f].trim()) return `${f} is required`;
   }
-  if (!CUISINES.includes(d.cuisine)) return 'Invalid cuisine';
   if (!LOCATIONS.includes(d.address)) return 'Invalid location';
   const r = Number(d.rating);
   if (d.rating === '' || d.rating == null || Number.isNaN(r) || r < 0 || r > 5) {
@@ -94,6 +121,9 @@ router.post('/', ...guard, async (req, res) => {
   const data = clean(req.body);
   const err = validate(data);
   if (err) return res.status(400).json({ message: err });
+    const c = await resolveCuisine(data.cuisine);
+  if (c.error) return res.status(400).json({ message: c.error });
+  data.cuisine = c.value;
 
   const last = await Restaurant.findOne().sort({ restaurant_id: -1 }).select('restaurant_id');
   data.restaurant_id = last ? last.restaurant_id + 1 : 1;
@@ -110,6 +140,9 @@ router.put('/:id', ...guard, async (req, res) => {
   const data = clean(req.body);
   const err = validate(data);
   if (err) return res.status(400).json({ message: err });
+    const c = await resolveCuisine(data.cuisine);
+  if (c.error) return res.status(400).json({ message: c.error });
+  data.cuisine = c.value;
 
   const updated = await Restaurant.findOneAndUpdate({ restaurant_id: id }, data, {
     new: true,

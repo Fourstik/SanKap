@@ -145,6 +145,24 @@
     $('recentCards').replaceChildren(...recent.map(buildCard));
   }
   
+    // Add a checkbox for any cuisine in the data that the HTML doesn't already list
+  function addCustomCuisineFilters() {
+    const box = $('cuisineFilters');
+    const have = new Set([...box.querySelectorAll('input[name="cuisine"]')].map((i) => i.value));
+    [...new Set(state.all.map((r) => r.cuisine))]
+      .filter((c) => !have.has(c))
+      .sort((a, b) => a.localeCompare(b))
+      .forEach((c) => {
+        const label = el('label', 'filter-option');
+        const input = document.createElement('input');
+        input.type = 'checkbox';
+        input.name = 'cuisine';
+        input.value = c;
+        label.append(input, document.createTextNode(' 🍽️ ' + c));
+        box.append(label);
+      });
+  }
+
   // ---------- Load data ----------
   // Homepage links: browse.html?cuisine=Filipino  /  browse.html?location=Clark
   function applyUrlParams() {
@@ -174,6 +192,7 @@
     })
     .then((data) => {
       state.all = data;
+      addCustomCuisineFilters();
       applyUrlParams();
       render();
       renderRecent();
