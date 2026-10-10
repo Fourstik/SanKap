@@ -879,5 +879,5 @@ a   { color: inherit; text-decoration: none; }
 .modal__error { min-height: 1.2rem; margin: .5rem 0 1rem; font-size: .8rem; color: #b42318; }
 .modal__actions { display: flex; justify-content: flex-end; gap: .75rem; }
 
-.badge--other { background: #efe6dc; color: #5a3e2b; }
+.badge--other { background: #ffd9b0; color: #a34700; }
 
