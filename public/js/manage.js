@@ -39,15 +39,60 @@
     return data;
   }
 
-  let msgTimer;
-  function showMessage(text, isError) {
-    const m = $('manageMessage');
-    m.textContent = text;
-    m.classList.toggle('is-error', !!isError);
-    clearTimeout(msgTimer);
-    if (!isError) msgTimer = setTimeout(() => { m.textContent = ''; }, 4000);
+  // ---------- Notifications ----------
+
+  // Small corner toast (used for errors)
+  function showToast(text, isError) {
+    let box = document.getElementById('toastBox');
+    if (!box) {
+      box = el('div', 'toast-box');
+      box.id = 'toastBox';
+      box.setAttribute('role', 'status');
+      document.body.append(box);
+    }
+    const toast = el('div', 'toast' + (isError ? ' toast--error' : ''));
+    toast.append(el('span', 'toast__icon', isError ? '!' : '✓'), el('span', 'toast__text', text));
+    box.append(toast);
+    requestAnimationFrame(() => toast.classList.add('is-visible'));
+    setTimeout(() => {
+      toast.classList.remove('is-visible');
+      setTimeout(() => toast.remove(), 300);
+    }, isError ? 6000 : 3500);
   }
 
+  // Big centered success popup
+  let successTimer;
+  function hideSuccess() {
+    const o = document.getElementById('successOverlay');
+    if (o) o.classList.remove('is-visible');
+  }
+  function showSuccess(text) {
+    let overlay = document.getElementById('successOverlay');
+    if (!overlay) {
+      overlay = el('div', 'success-overlay');
+      overlay.id = 'successOverlay';
+      overlay.setAttribute('role', 'status');
+      const card = el('div', 'success-card');
+      card.append(
+        el('div', 'success-card__icon', '✓'),
+        el('h2', 'success-card__title', 'Success!'),
+        el('p', 'success-card__text', '')
+      );
+      overlay.append(card);
+      overlay.addEventListener('click', hideSuccess);
+      document.body.append(overlay);
+    }
+    overlay.querySelector('.success-card__text').textContent = text;
+    void overlay.offsetWidth; // lets the animation replay on repeat successes
+    overlay.classList.add('is-visible');
+    clearTimeout(successTimer);
+    successTimer = setTimeout(hideSuccess, 2200);
+  }
+  function showMessage(text, isError) {
+    if (isError) showToast(text, true);
+    else showSuccess(text);
+  }
+  
   // ---------- Table ----------
   function buildRow(r) {
     const tr = el('tr');
@@ -194,7 +239,9 @@
         editing ? 'PUT' : 'POST', data);
       closeModals();
       await loadList();
-      showMessage(editing ? 'Restaurant updated.' : 'Restaurant added.');
+      showMessage(editing
+  ? `“${data.name}” was updated successfully.`
+  : `“${data.name}” was added successfully!`);
     } catch (err) {
       $('formError').textContent = err.message;
     }
@@ -210,7 +257,7 @@
       await api(`/api/restaurants/${r.restaurant_id}`, 'DELETE');
       closeModals();
       await loadList();
-      showMessage('Restaurant deleted.');
+      showMessage(`“${r.name}” was deleted.`);
     } catch (err) {
       $('deleteError').textContent = err.message;
     }

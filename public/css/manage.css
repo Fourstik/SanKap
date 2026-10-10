@@ -19,3 +19,59 @@
 .form-field { margin-bottom: .9rem; }
 .form-field label { display: block; margin-bottom: .3rem; font-size: .78rem; font-weight: 600; color: var(--text-mid); }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; }
+
+/* Admin change notifications */
+.toast-box { position: fixed; right: 1rem; bottom: 1rem; z-index: 1100; display: flex; flex-direction: column; gap: .6rem; }
+.toast {
+  display: flex; align-items: center; gap: .7rem;
+  max-width: 340px; padding: .85rem 1.1rem;
+  background: var(--white); color: var(--maroon-900);
+  border-left: 4px solid #1a8a3a; border-radius: var(--r-md);
+  box-shadow: var(--shadow-md); font-size: .9rem;
+  opacity: 0; transform: translateY(12px);
+  transition: opacity .25s, transform .25s;
+}
+.toast.is-visible { opacity: 1; transform: none; }
+.toast__icon {
+  flex: none; display: grid; place-items: center;
+  width: 1.4rem; height: 1.4rem; border-radius: 50%;
+  background: #1a8a3a; color: #fff; font-size: .8rem; font-weight: 700;
+}
+.toast--error { border-left-color: #b42318; }
+.toast--error .toast__icon { background: #b42318; }
+
+/* Big centered success popup */
+.success-overlay {
+  position: fixed; inset: 0; z-index: 1200;
+  display: flex; align-items: center; justify-content: center; padding: 1rem;
+  background: rgba(44, 10, 10, .55);
+  backdrop-filter: blur(3px);
+  opacity: 0; visibility: hidden;
+  transition: opacity .3s ease, visibility .3s;
+}
+.success-overlay.is-visible { opacity: 1; visibility: visible; }
+
+.success-card {
+  width: 100%; max-width: 420px; padding: 2.5rem 2rem; text-align: center;
+  background: var(--white); border-radius: var(--r-md); box-shadow: var(--shadow-md);
+  transform: translateY(24px) scale(.85);
+  transition: transform .4s cubic-bezier(.34, 1.56, .64, 1);
+}
+.success-overlay.is-visible .success-card { transform: none; }
+
+.success-card__icon {
+  display: grid; place-items: center;
+  width: 84px; height: 84px; margin: 0 auto 1.2rem;
+  border-radius: 50%; background: #1a8a3a; color: #fff; font-size: 2.8rem; line-height: 1;
+  transform: scale(0);
+}
+.success-overlay.is-visible .success-card__icon { animation: success-pop .5s .15s cubic-bezier(.34, 1.56, .64, 1) forwards; }
+@keyframes success-pop { to { transform: scale(1); } }
+
+.success-card__title { font-family: var(--font-serif); font-size: 1.8rem; color: var(--maroon-900); margin-bottom: .4rem; }
+.success-card__text { color: var(--text-muted); font-size: 1rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .success-overlay, .success-card, .success-card__icon { transition: none; animation: none !important; }
+  .success-overlay.is-visible .success-card__icon { transform: scale(1); }
+}
