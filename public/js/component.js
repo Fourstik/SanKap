@@ -16,8 +16,7 @@ function renderNav() {
   return `
   <nav class="nav" id="mainNav">
     <a href="index.html" class="nav__logo">
-      <span class="nav__pin">📍</span>
-      <span>San<em>Kap</em></span>
+      <img src="/assets/images/SanKap_Logo.png" alt="SanKap" class="nav__logo-img" />
     </a>
 
     <button class="nav__burger" id="burger" aria-label="Toggle menu" aria-expanded="false">
@@ -41,7 +40,7 @@ function renderFooter() {
     <div class="container">
       <div class="footer__inner">
         <div class="footer__brand">
-          <span class="footer__logo">📍 San<em>Kap</em></span>
+          <img src="/assets/images/SanKap_Logo.png" alt="SanKap" class="nav__logo-img" />
           <span class="footer__tagline">Find Dining in Pampanga.</span>
         </div>
         <div class="footer__bottom" style="text-align: right;">

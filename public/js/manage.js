@@ -16,7 +16,15 @@
   const $ = (id) => document.getElementById(id);
   const formModal = $('formModal');
   const deleteModal = $('deleteModal');
-  const state = { all: [], search: '', editingId: null, deleteTarget: null };
+  const state = { all: [], search: '', sort: 'id-asc', editingId: null, deleteTarget: null };
+  const SORTS = {
+    'id-asc': (a, b) => a.restaurant_id - b.restaurant_id,
+    'id-desc': (a, b) => b.restaurant_id - a.restaurant_id,
+    'name-asc': (a, b) => a.name.localeCompare(b.name),
+    'name-desc': (a, b) => b.name.localeCompare(a.name),
+    'rating-desc': (a, b) => b.rating - a.rating || a.name.localeCompare(b.name),
+    'rating-asc': (a, b) => a.rating - b.rating || a.name.localeCompare(b.name),
+  };
 
   function leave() {
     sessionStorage.removeItem(ADMIN_KEY);
@@ -128,6 +136,7 @@
     const rows = state.all.filter((r) =>
       !q || [r.name, r.cuisine, r.address, r.contact].some((v) => v.toLowerCase().includes(q))
     );
+    rows.sort(SORTS[state.sort]);
     $('manageCount').textContent = rows.length === state.all.length
       ? `${rows.length} restaurants`
       : `${rows.length} of ${state.all.length} restaurants`;
@@ -148,7 +157,7 @@
     try {
       const res = await fetch('/api/restaurants?sort=name_asc');
       if (!res.ok) throw new Error('Request failed');
-      state.all = await res.json();
+      state.all = (await res.json()).sort((a, b) => a.restaurant_id - b.restaurant_id);
       renderTable();
     } catch (e) {
       $('manageCount').textContent = 'Something went wrong';
@@ -203,7 +212,7 @@
   // ---------- Events ----------
   $('addBtn').addEventListener('click', () => openForm(null));
   $('logoutBtn').addEventListener('click', leave);
-  $('manageSearch').addEventListener('input', (e) => { state.search = e.target.value; renderTable(); });
+    $('manageSort').addEventListener('change', (e) => { state.sort = e.target.value; renderTable(); });
 
   $('tableBody').addEventListener('click', (e) => {
     const btn = e.target.closest('button[data-action]');
