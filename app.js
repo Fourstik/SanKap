@@ -21,10 +21,10 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json()); // lets us read JSON bodies on POST/PUT
 
-// 3. Serve the frontend (HTML, CSS, JS, images) from /public
+// 3. Serve the frontend from /public
 app.use(express.static(path.join(__dirname, 'public')));
 
-// 4. API routes (uncomment once routes/restaurants.js exists)
+// 4. API routes
 app.use('/api/restaurants', require('./routes/restaurants'));
 app.use('/api/admin', require('./routes/admin'));
 
