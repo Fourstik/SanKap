@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/restaurants', require('./routes/restaurants'));
 app.use('/api/admin', require('./routes/admin'));
 
-// 5. Connect to MongoDB Atlas
+// 5. Connect to MongoDB Atlas. The connection string comes from the MONGODB_URI environment variable, so no credentials are in the code.
 mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => console.log('MongoDB connected'))
